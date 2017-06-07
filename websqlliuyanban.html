@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    button,
+    input,
+    textarea {
+        outline: none;
+        border: 0;
+    }
+    
+    .container {
+        position: relative;
+        width: 1000px;
+        margin: 0 auto;
+        background: #D2E9FF;
+    }
+    
+    .page-header {
+        width: 100%;
+        text-align: center;
+        background: #C0E1FF;
+        border-bottom: 1px solid #B8DDFF;
+    }
+    
+    .page-header .page-title {
+        font-size: 25px;
+        font-weight: normal;
+    }
+    
+    .page-session {
+        width: 100%;
+    }
+    
+    #dataTable {
+        border-collapse: collapse;
+    }
+    
+    #dataTable th,
+    #dataTable td {
+        border-style: double;
+    }
+    
+    .add-box {
+        width: 970px;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        margin-left: -500px;
+        padding: 15px;
+        background: paleturquoise;
+    }
+    
+    .ly-lab {
+        width: 50px;
+    }
+    
+    #name {
+        height: 25px;
+        line-height: 25px;
+    }
+    
+    .add-btn {
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        background: palegoldenrod;
+        margin-left: 70px;
+    }
+    
+    .upd,
+    .del {
+        color: #fff;
+        width: 50px;
+        height: 25px;
+        line-height: 25px;
+        margin-right: 5px;
+        background: lightskyblue;
+        border-radius: 3px;
+    }
+    
+    .del {
+        background: red;
+    }
+    
+    #pop {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -100px;
+        width: 250px;
+        height: 125px;
+        background: steelblue;
+    }
+    
+    #edit {
+        display: block;
+        margin: 10px auto;
+    }
+    
+    #sBtn {
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        color: #fff;
+        text-align: center;
+        background: #095777;
+        margin-left: 50%;
+    }
+</style>
+
+<body onload="init()">
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h1 class="page-title">留言</h1>
+            </div>
+            <div class="page-session">
+                <table id="dataTable">
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="add-box">
+        <table>
+            <tr>
+                <td class="ly-lab">姓名：</td>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <td class="ly-lab">留言：</td>
+                <td><textarea id="msg" rows="5" cols="30"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input class="add-btn" type="button" value="保存" onclick="saveData()"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="pop">
+        <textarea id="edit" cols="30" rows="5"></textarea>
+        <button id="sBtn">确定</button>
+    </div>
+</body>
+<script>
+    var datatable = null;
+    var db = openDatabase("MyData", "", "My Database", 1024 * 100);
+    db.transaction(function(tx) {
+        // tx.executeSql("DROP TABLE IF EXISTS MyData");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS MyTable(name TEXT,msg TEXT,time INTEGER)");
+    })
+    var pop = document.getElementById("pop");
+    var ed = document.getElementById("edit");
+    var sBtn = document.getElementById("sBtn");
+
+    function init() {
+        datatable = document.getElementById("dataTable");
+        showAllData();
+    }
+    //保存内容
+    function saveData() {
+        var name = document.getElementById("name").value;
+        var msg = document.getElementById("msg").value;
+        var time = new Date().getTime();
+        addData(name, msg, time);
+        showAllData();
+    }
+    //插入数据
+    function addData(name, msg, time) {
+        db.transaction(function(tx) {
+            tx.executeSql("INSERT INTO MyTable VALUES(?,?,?)", [name, msg, time],
+                function(tx, rs) {
+                    alert("留言成功");
+                },
+                function(tx, error) {
+                    alert(error.source + "::" + error.message);
+                }
+            )
+        })
+    }
+    //展示数据
+    function showAllData() {
+        db.transaction(function(tx) {
+            // tx.executeSql("DROP TABLE IF EXISTS MyData");
+            tx.executeSql("SELECT rowid,name,msg,time FROM MyTable", [], function(tx, rs) {
+                removeAllData();
+                for (var i = 0; i < rs.rows.length; i++) {
+                    //console.log(rs);
+                    showData(rs.rows.item(i));
+                }
+            })
+        })
+    }
+    // 删除表格原有内容
+    function removeAllData() {
+        for (var i = datatable.childNodes.length - 1; i >= 0; i--) {
+            datatable.removeChild(datatable.childNodes[i]);
+        }
+        var tr = document.createElement("tr");
+        var th1 = document.createElement("th");
+        var th2 = document.createElement("th");
+        var th3 = document.createElement("th");
+        var th4 = document.createElement("th");
+        var th5 = document.createElement("th");
+        th1.innerHTML = "id";
+        th2.innerHTML = "姓名";
+        th3.innerHTML = "留言";
+        th4.innerHTML = "时间";
+        th5.innerHTML = "操作";
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        tr.appendChild(th3);
+        tr.appendChild(th4);
+        tr.appendChild(th5);
+        datatable.appendChild(tr);
+    }
+    // 按照表格展现
+    function showData(row) {
+        //console.log(row);
+        var tr = document.createElement("tr");
+        var td1 = document.createElement("td");
+        td1.innerHTML = row.rowid;
+        var td2 = document.createElement("td");
+        td2.innerHTML = row.name;
+        var td3 = document.createElement("td");
+        td3.innerHTML = row.msg;
+        var td4 = document.createElement("td");
+        var t = new Date();
+        t.setTime(row.time);
+        td4.innerHTML = t.toLocaleDateString() + " " + t.toLocaleTimeString();
+        var td5 = document.createElement("td");
+        var upd = document.createElement("button");
+        upd.className = 'upd';
+        upd.innerHTML = '编辑';
+        var del = document.createElement("button");
+        del.className = 'del';
+        del.innerHTML = '删除';
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        td5.appendChild(upd);
+        td5.appendChild(del);
+        tr.appendChild(td5);
+        datatable.appendChild(tr);
+
+        //删除
+        del.onclick = function() {
+            var id = this.parentNode.parentNode.firstChild.innerText;
+            //console.log(id);
+            db.transaction(function(tx, rs) {
+                tx.executeSql("delete from MyTable where rowid = ?", [id], function(tx, rs) {
+                    alert("删除成功 ");
+                }, function(tx, error) {
+                    alert('删除失败:' + error.message);
+                });
+            });
+            this.parentNode.parentNode.style.display = "none";
+
+        }
+
+        //编辑
+        upd.onclick = function() {
+            var id = this.parentNode.parentNode.firstChild.innerText;
+            var be = this.parentNode.previousSibling.previousSibling;
+            ed.value = be.innerText;
+            pop.style.display = "block";
+            sBtn.onclick = function() {
+                db.transaction(function(tx, rs) {
+                    tx.executeSql("update MyTable set msg = ? where rowid = ?", [be.innerText, id], function(tx, rs) {
+                        alert("修改成功 ");
+                    }, function(tx, error) {
+                        alert('修改失败:' + error.message);
+                    });
+                });
+                be.innerText = ed.value;
+                pop.style.display = "none";
+            }
+        }
+    }
+</script>
+
+</html>
