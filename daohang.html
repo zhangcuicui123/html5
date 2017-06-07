@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0 auto;
+    }
+    
+    .box {
+        overflow: hidden;
+        background: palegreen;
+        width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .item {
+        float: left;
+        position: relative;
+        width: 110px;
+        height: 110px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+    
+    .item::before {
+        content: "";
+        width: 110px;
+        height: 110px;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent;
+        border-radius: 50%;
+        transform: rotate(0deg);
+        transition: all 2s ease 0s;
+    }
+    
+    .inner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -50px;
+        margin-top: -50px;
+        width: 100px;
+        height: 100px;
+        background: #87b7bb;
+        border-radius: 50%;
+    }
+    
+    .inner p {
+        color: #fff;
+        text-align: center;
+    }
+    
+    .inner p img {
+        margin-top: 10px;
+    }
+    
+    .item:hover::before {
+        transform: rotate(360deg);
+    }
+    
+    .item:nth-child(1)::before {
+        border-top-color: #05e0d3;
+    }
+    
+    .item:nth-child(1):hover .inner {
+        background: #05e0d3;
+    }
+    
+    .item:nth-child(2):before {
+        border-left-color: #85c900;
+    }
+    
+    .item:nth-child(2):hover .inner {
+        background: #85c900;
+    }
+    
+    .item:nth-child(3):before {
+        border-bottom-color: #f3da1d;
+    }
+    
+    .item:nth-child(3):hover .inner {
+        background: #f3da1d;
+    }
+    
+    .item:nth-child(4):before {
+        border-right-color: #109df7;
+    }
+    
+    .item:nth-child(4):hover .inner {
+        background: #109df7;
+    }
+    
+    .item:nth-child(5):before {
+        border-top-color: #ea1b8f;
+    }
+    
+    .item:nth-child(5):hover .inner {
+        background: #ea1b8f;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="item">
+            <div class="inner">
+                <p><img src="img/tb_1.png" alt=""></p>
+                <p>我要约考</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="inner">
+                <p><img src="img/tb_2.png" alt=""></p>
+                <p>班型介绍</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="inner">
+                <p><img src="img/tb_3.png" alt=""></p>
+                <p>班车服务</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="inner">
+                <p><img src="img/tb_4.png" alt=""></p>
+                <p>在线法培</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="inner">
+                <p><img src="img/tb_5.png" alt=""></p>
+                <p>网上约车</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
