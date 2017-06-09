@@ -57,15 +57,15 @@
     <div class="stage">
         <div class="actor">
             <ul>
-                <li><img src="img/1.jpg" alt=""></li>
-                <li><img src="img/2.jpg" alt=""></li>
-                <li><img src="img/3.jpg" alt=""></li>
-                <li><img src="img/4.jpg" alt=""></li>
-                <li><img src="img/5.jpg" alt=""></li>
-                <li><img src="img/6.jpg" alt=""></li>
-                <li><img src="img/7.jpg" alt=""></li>
-                <li><img src="img/8.jpg" alt=""></li>
-                <li><img src="img/9.jpg" alt=""></li>
+                <li><img src="img/26.jpg" alt=""></li>
+                <li><img src="img/27.jpg" alt=""></li>
+                <li><img src="img/28.jpg" alt=""></li>
+                <li><img src="img/29.jpg" alt=""></li>
+                <li><img src="img/30.jpg" alt=""></li>
+                <li><img src="img/31.jpg" alt=""></li>
+                <li><img src="img/32.jpg" alt=""></li>
+                <li><img src="img/33.jpg" alt=""></li>
+                <li><img src="img/34.jpg" alt=""></li>
             </ul>
         </div>
     </div>
@@ -76,6 +76,7 @@
     var $actor = $(".actor");
     //把所有图片展开呈圆形
     $(".actor ul li").each(function(i) {
+            console.log(i);
             $(this).css("transform", "rotateY(" + i * 40 + "deg) translateZ(400px)");
         })
         //滚轮
@@ -85,7 +86,7 @@
         //函数节流
         if (!lock) return;
         degree -= delta * 40;
-        $actor.css("tranform", "rotateY(" + degree + "deg)");
+        $actor.css("transform", "rotateY(" + degree + "deg)");
         //console.log(delta);
         lock = false;
         setTimeout(function() {
@@ -99,11 +100,11 @@
     $(document).mousedown(function(ev) {
         var startX = ev.clientX;
         var startY = ev.clientY;
-        $(document).mousemove(function() {
+        $(document).mousemove(function(ev) {
             var deltaX = ev.clientX - startX;
             var deltaY = ev.clientY - startY;
             $actor.css("transition", "none");
-            $actor.css("transform", "rotateX(" + (-deltaY / 10) + "deg) rotateY(" + deltax / 10 + "deg)");
+            $actor.css("transform", "rotateX(" + -deltaY / 10 + "deg) rotateY(" + deltaX / 10 + "deg)");
             return false;
         })
     })
