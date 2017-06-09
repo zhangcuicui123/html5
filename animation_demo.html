@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .box {
+        width: 1300px;
+        height: auto;
+        margin: 0 auto;
+        border: 1px solid yellowgreen;
+        overflow: hidden;
+    }
+    
+    .box p,
+    .box p:before {
+        background-image: url(img/shouxin.png);
+        background-repeat: no-repeat;
+    }
+    
+    .first {
+        float: left;
+        width: 400px;
+        height: 200px;
+        position: relative;
+    }
+    
+    .first p.circle {
+        width: 137px;
+        height: 136px;
+        background-position: 0 -482px;
+        position: absolute;
+        bottom: 0;
+        left: 80px;
+        animation: zhuan 1.5s ease-in-out 0s infinite;
+    }
+    
+    .first p.triangle {
+        width: 170px;
+        height: 170px;
+        background-position: 0 -311px;
+        position: absolute;
+        bottom: 0;
+        animation: zhuan 3s ease-in-out 1s infinite;
+    }
+    
+    .first p.squre {
+        width: 96px;
+        height: 96px;
+        background-position: 0 -215px;
+        position: absolute;
+        bottom: 0;
+        left: 130px;
+        animation: zhuan 2s ease-in-out 2s infinite;
+    }
+    
+    .box .sec {
+        float: left;
+    }
+    
+    .box .sec p.deng {
+        width: 191px;
+        height: 267px;
+        background-position: 0 -620px;
+        position: relative;
+        margin-top: 110px;
+    }
+    
+    .box .sec p.deng:before {
+        content: "";
+        display: block;
+        width: 341px;
+        height: 256px;
+        background-position: 0 -887px;
+        position: absolute;
+        top: -68px;
+        left: -74px;
+        animation: fade 2s ease-in-out 0s infinite;
+    }
+    
+    .th {
+        clear: left;
+        width: 300px;
+    }
+    
+    .th p.plane {
+        width: 225px;
+        height: 220px;
+        background-position: -239px 0;
+        animation: dong 1.5s ease-in-out 0s infinite alternate;
+    }
+    
+    .th p.p1 {
+        width: 156px;
+        height: 153px;
+        margin: -300px 0 0 80px;
+        background-position: -239px -220px;
+        animation: dong_line .3s linear 0s infinite;
+    }
+    
+    .th p.p2 {
+        width: 75px;
+        height: 73px;
+        margin: -300px 0 0 240px;
+        background-position: -165px -150px;
+        animation: dong_line .5s linear 0s infinite;
+    }
+    
+    .th p.p3 {
+        width: 156px;
+        height: 153px;
+        margin: 10px 0 0 280px;
+        background-position: -239px -373px;
+        animation: dong_line .7s linear 0s infinite;
+    }
+    
+    .th p.p4 {
+        width: 94px;
+        height: 93px;
+        margin: 50px 0 0 280px;
+        background-position: -239px -220px;
+        animation: dong_line .8s linear 0s infinite;
+    }
+    
+    .th2 {
+        float: left;
+    }
+    
+    .th2 p.bi {
+        width: 234px;
+        height: 234px;
+        margin-left: 400px;
+        background-position: -239px -526px;
+        animation: bi 2s linear 0s infinite;
+    }
+    
+    .th2 p.ying {
+        width: 217px;
+        height: 28px;
+        margin-left: 400px;
+        margin-top: 30px;
+        background-position: -239px -760px;
+        animation: bi 2s linear 0s infinite;
+    }
+    
+    .fiv p.orb {
+        width: 150px;
+        height: 150px;
+        background: linear-gradient(to bottom, #dedede, #ffffff);
+        border-radius: 50%;
+        animation: orbmove 15s linear 0s infinite;
+    }
+    
+    @-webkit-keyframes zhuan {
+        0% {
+            transform: rotateZ(0deg);
+        }
+        30% {
+            transform: rotateZ(360deg);
+        }
+        100% {
+            transform: rotateZ(360deg);
+        }
+    }
+    
+    @-webkit-keyframes fade {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+    
+    @-webkit-keyframes dong {
+        0% {
+            transform: translateX(1px) translateY(2px) translateZ(1px);
+        }
+        50% {
+            transform: translateX(-30px) translateY(10px) translateZ(20px);
+        }
+        100% {
+            transform: translateX(1px) translateY(2px) translateZ(1px);
+        }
+    }
+    
+    @-webkit-keyframes dong_line {
+        0% {
+            transform: translateX(-300px) translateY(300px);
+        }
+        50% {
+            transform: translateX(0) translateY(0);
+        }
+        100% {
+            transform: translateX(-300px) translateY(300px);
+        }
+    }
+    
+    @-webkit-keyframes bi {
+        0% {
+            transform: translateY(1px);
+        }
+        50% {
+            transform: translateY(-50px);
+        }
+        100% {
+            transform: translateY(1px);
+        }
+    }
+    
+    @-webkit-keyframes orbmove {
+        from {
+            transform: translateX(0) rotate(0deg);
+        }
+        to {
+            transform: translateX(1000px) rotate(360deg);
+        }
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="first">
+            <p class="circle"></p>
+            <p class="triangle"></p>
+            <p class="squre"></p>
+        </div>
+        <div class="sec">
+            <p class="deng"></p>
+        </div>
+        <div class="th">
+            <p class="plane"></p>
+            <p class="p1"></p>
+            <p class="p2"></p>
+            <p class="p3"></p>
+            <p class="p4"></p>
+        </div>
+        <div class="th2">
+            <p class="bi"></p>
+            <p class="ying"></p>
+        </div>
+        <div class="fiv">
+            <p class="orb"></p>
+        </div>
+    </div>
+</body>
+
+</html>
