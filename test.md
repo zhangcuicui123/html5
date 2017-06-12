@@ -544,7 +544,9 @@ function stopDefault( e ) {
 - $(document).ready()是当DOM文档树加载完成后执行一个函数 （不包含图片，css等）所以会比load较快执行
 在原生的jS中不包括ready()这个方法，只有load方法就是onload事件
 ### 写一个正则验证URL
-这个url的正则表达式判断的JavaScript！比较全面的。它验证的情况包括IP，域名（domain），ftp，二级域名，域名中的文件，域名加上端口！用户名等等信息
+- 简单的url正则验证:var reg=/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+- 比较全面的url:
+它验证的情况包括IP，域名（domain），ftp，二级域名，域名中的文件，域名加上端口！用户名等等信息
 ```
 var strRegex = '^((https|http|ftp|rtsp|mms)?://)'
 + '?(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' //ftp的user@ 
@@ -575,7 +577,15 @@ var re=new RegExp(strRegex);
     alert(d);
     alert(c);
 ```
-结果：5,6,6，报错(c is undefined)
+
+```
+结果                      原因
+5                         在立即执行函数中，a函数没有调用,没起作用,所以a的值为5
+6                         在立即执行函数中，b函数没有调用,没起作用,所以b的值为6
+6                         b,d是全局变量
+报错(c is undefined)       c是局部变量
+```
+
 ### 写出如下点击li的输出值，并用三种方式正确输出li里的数字
 
 ```
@@ -728,10 +738,13 @@ this.a = 20;
     p();//this指向window
     new(test.init())();//this指向go对象
 ```
-注释去掉前结果 20 50
 
-原因：在普通函数中的this指向window，在对象中的this指向go函数
+```
+注释去掉前结果     原因
+20                在普通函数中,this指向window,找的是window下的a属性,所以结果为20
+50                在构造函数中,this指向go,但go里面没有该属性,去原型上找,在原型上找到了a属性,所以结果为50
 
-注释去掉后的结果  60 60
-
-原因：普通函数中的this指向window，go函数中有a属性
+注释去掉后的结果    原因
+60                 普通函数中的this指向window,所以找的就是window下的a属性,在go函数中把window下的a重新赋值了,所以结果                     为60
+60                 在构造函数中,this指向go,go里面有a属性,所以不会去原型上找了
+```
