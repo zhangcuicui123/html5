@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>连线的小球</title>
+</head>
+<style>
+    canvas {
+        background: #eee;
+    }
+</style>
+
+<body>
+    <canvas id="canvas" width="1200" height="600"></canvas>
+</body>
+<script src="https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var fontArr = ['放', '羊', '的', '星', '星', '斗', '牛', '要', '不', '要'];
+    var color = ['skyblue', 'orange', 'hotpink', 'aqua', 'lime', 'lightyellow', 'gold'];
+
+    function Ball() {
+        this.r = _.random(10, 30);
+        this.x = _.random(0, canvas.width - this.r);
+        this.y = _.random(0, canvas.height - this.r);
+        // 自己变化的方向
+        this.dx = _.random(-2, 2);
+        this.dy = _.random(-2, 2);
+        this.text = _.sample(fontArr);
+        this.color = _.sample(color);
+        //和自己相关联的小球,从盒子里面随机拿出3-6个小球
+        this.friend = _.sample(ballArr, _.random(3, 6));
+        ballArr.push(this);
+    }
+    Ball.prototype.update = function() {
+        this.x += this.dx;
+        this.y += this.dy;
+
+        //检测碰边反弹
+        if (this.x >= (canvas.width - this.r) || this.x <= this.r) {
+            this.dx = -this.dx;
+        } else if (this.y >= (canvas.height - this.r) || this.y <= this.r) {
+            this.dy = -this.dy;
+        }
+
+    }
+
+    Ball.prototype.render = function() {
+        // 画一个小球
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+        //文本
+        //在中间写字  
+        ctx.font = "12px 微软雅黑"; // 字体大小，样式
+        ctx.textAlign = 'center'; // 位置
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = "black";
+        ctx.moveTo(this.x, this.y); // 文字填充位置
+        ctx.fillText(this.text, this.x, this.y);
+
+        //画线
+        ctx.lineWidth = "0.2";
+        ctx.strokeStyle = "#ccc";
+        var self = this;
+        _.each(this.friend, function(i) {
+            ctx.beginPath();
+            ctx.moveTo(self.x, self.y);
+            ctx.lineTo(i.x, i.y);
+            ctx.closePath();
+            ctx.stroke();
+        })
+    }
+
+
+    var ballArr = [];
+    for (var i = 0; i < 10; i++) {
+        new Ball();
+
+    }
+    setInterval(function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        _.each(ballArr, function(i) {
+            i.update();
+            i.render();
+        })
+    }, 30)
+</script>
+
+</html>
