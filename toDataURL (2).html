@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    canvas {
+        display: none;
+        /*background: url(img/canvasbg.jpg) no-repeat center;
+        background-size: auto 100%;*/
+    }
+</style>
+
+<body>
+    <p>姓名<input id="usrName" type="text" name="" value=""></p>
+    <canvas id="canvas" width="600" height="400"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var uname = document.getElementById("usrName");
+    uname.onkeydown = function(ev) {
+        console.log(ev);
+        if (ev.keyCode == 13) {
+            ctx.fillStyle = "black";
+            ctx.font = "14px 黑体";
+            ctx.fillText("姓名: " + uname.value, 180, 375);
+            var dataURL = canvas.toDataURL();
+            var img = document.createElement("img");
+            img.src = dataURL;
+            document.body.appendChild(img);
+        }
+    }
+</script>
+
+</html>
